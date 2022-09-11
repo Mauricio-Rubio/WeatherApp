@@ -6,6 +6,7 @@ function Login() {
     let inputRef = useRef(null);
     function handleEvent(event) {
         alert(inputRef.current.value);
+        history("/Main")
     }
     return (
         <div className="grid grid-cols-1 h-screen w-full">
