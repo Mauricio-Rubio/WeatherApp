@@ -1,4 +1,4 @@
-let APIKEY = '71f51a56b641078d5f48149a5e723dfa';
+let APIKEY = '';
 const URL = 'https://api.openweathermap.org/data/2.5/weather?lat=44.34&lon=10.99&appid='
 
  export default function validarAPI(key) {
