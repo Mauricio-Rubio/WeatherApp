@@ -1,14 +1,21 @@
-import React from "react";
-import { useRef } from "react";
+import React, {useRef, useState} from "react";
+import WeatherCard from "./WeatherCard";
+
 export default function SearchComponent() {
+    const [consult, setConsult] = useState(""); 
+    const info = {
+        name: "London",
+        country: "UK",
+    }
     let inputRef = useRef(null);
     function handleSearch(){
         console.log(inputRef.current.value);
+        setConsult(inputRef.current.value);
     };
 
     return (
-        <div className="flex items-center justify-center pt-12">
-            <div className="flex space-x-1">
+        <div className="flex-col items-center justify-center pt-12">
+            <div className="flex space-x-1 mx-12" >
                 <input
                     type="text"
                     className="block w-full px-4 py-2 text-gray-700 bg-white border rounded-full focus:border-teal-400 focus:ring-teal-300 focus:outline-none focus:ring focus:ring-opacity-40"
@@ -31,6 +38,9 @@ export default function SearchComponent() {
                         />
                     </svg>
                 </button>
+            </div>
+            <div className="flex space-x-1 justify-center mt-16 p-2	">
+                {consult != "" ? <WeatherCard text={info}/> : null}
             </div>
         </div>
     );}
