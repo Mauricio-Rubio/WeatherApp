@@ -22,7 +22,7 @@ export default function SearchComponent() {
                     placeholder="Search..."
                     ref={inputRef}
                 />
-                <button className="px-4 text-white bg-teal-500 rounded-full shadow-teal-500/50 hover:shadow-teal-500/40" onClick={handleSearch}>
+                <button className="px-4 text-white bg-teal-500 shadow-lg rounded-full shadow-teal-500/50 hover:shadow-teal-500/40" onClick={handleSearch}>
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         className="w-5 h-5"

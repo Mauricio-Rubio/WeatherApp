@@ -53,7 +53,7 @@ function Login() {
         <div className="grid grid-cols-1 h-screen w-full">
             <div className="bg-gray-800 flex flex-col justify-center">
                 <form className="max-w-[400px] w-full mx-auto bg-gray-900 p-8 px-8 rounded-lg" onSubmit={handleSubmit}>
-                    <h2 className="text-4xl dark:text-white font-bold text-center">Start</h2>
+                    <h2 className="text-4xl text-white font-bold text-center">Start</h2>
                     <div className="flex flex-col text-gray-400 py-2">
                         <label>API KEY</label>
                         <input className="rounded-lg bg-gray-700 mt-2 p-2 focus:border-blue-500  focus:bg-gray-800 focus:outline-none" ref={inputRef} type="password" />
