@@ -1,5 +1,12 @@
 import React from "react";
-function Profile() {
-    return <div className="text-3xl font-bold underline" > Your are allowed to be here</div>
+import getKey from "../backend/key";
+function Main(props) {
+    console.log(getKey());
+    return (
+    <div className="text-3xl font-bold underline" > Your are allowed to be here
+    <p></p>
+    
+    </div>
+    );
 }
-export default Profile;
+export default Main;

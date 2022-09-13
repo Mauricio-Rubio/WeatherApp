@@ -2,9 +2,9 @@ import React from "react";
 import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { useEffect } from "react";
 import Swal from 'sweetalert2'
 import validarAPI from "../backend/request.test"
+import { setKey } from "../backend/key";
 // import withReactContent from 'sweetalert2-react-content'
 function Login() {
     const URL = 'https://api.openweathermap.org/data/2.5/weather?lat=44.34&lon=10.99&appid='
@@ -35,7 +35,8 @@ function Login() {
                     icon: 'success',
                     title: 'Signed in successfully',
                   })
-                history("/Main")
+                  setKey(inputRef.current.value);
+                  history("/Main")
             } else {
                 Swal.fire({
                     title: 'Error!',
