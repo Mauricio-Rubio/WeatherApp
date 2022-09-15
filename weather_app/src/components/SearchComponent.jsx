@@ -1,16 +1,37 @@
-import React, {useRef, useState} from "react";
+import React, { useRef, useState } from "react";
 import WeatherCard from "./WeatherCard";
 
+let counter = 0;
 export default function SearchComponent() {
-    const [consult, setConsult] = useState(""); 
-    const info = {
+    
+    const [consult, setConsult] = useState("");
+    // const [infoProps, setinfoProps] = useState(info[0]);
+    const info = [{
         name: "London",
         country: "UK",
-    }
+    }, {
+        name: "Munich",
+        country: "GER",
+    }, {
+        name: "MTY",
+        country: "MTY",
+    }, {
+        name: "CDMX",
+        country: "MEX",
+    }]
+    const [infoProps, setinfoProps] = useState("");
     let inputRef = useRef(null);
-    function handleSearch(){
-        console.log(inputRef.current.value);
+    function handleSearch() {
+        //console.log(inputRef.current.value);
         setConsult(inputRef.current.value);
+        if(consult !== ""){
+            setinfoProps(info[counter]);
+            counter++;
+            if(counter > 3){
+                counter = 0;
+            }
+        }
+        
     };
 
     return (
@@ -39,8 +60,9 @@ export default function SearchComponent() {
                     </svg>
                 </button>
             </div>
-            <div className="flex space-x-1 justify-center mt-16 p-2	">
-                {consult != "" ? <WeatherCard text={info}/> : null}
+            <div className="flex space-x-1 justify-center mt-16 p-2	 flex-wrap -m-3">
+                {consult !== "" ? <WeatherCard text={infoProps} /> : null}
             </div>
         </div>
-    );}
+    );
+}
