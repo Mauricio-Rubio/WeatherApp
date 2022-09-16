@@ -1,6 +1,5 @@
 let APIKEY = '';
 const URL = 'https://api.openweathermap.org/data/2.5/weather?lat=44.34&lon=10.99&appid='
-
  export default function validarAPI(key) {
      fetch(`${URL}${key}`)
          .then(function (response) {
@@ -14,19 +13,7 @@ const URL = 'https://api.openweathermap.org/data/2.5/weather?lat=44.34&lon=10.99
          })
          .catch(err => console.log());
 }
-// export default function validarAPI(key) {
-//     const request = new XMLHttpRequest();
-//     // request.open("GET", `${URL && key}`);
-//     request.open("GET", `${URL}${key}`);
-//     request.send();
-//     request.onload = () => {
-//         if (request.status == 200) {
-//             console.log(JSON.parse(request.response));
-//             return true;
-//         } else {
-//             console.log(`Err --> ${request.status}`);
-//             return false;
-//         }
-//     }
-// }
+
+
+
 
