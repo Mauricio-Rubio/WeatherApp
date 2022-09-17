@@ -9,8 +9,6 @@ function Main(props) {
     const [cities, setCities] = useState(null);
     const [IATA, setIATA] = useState(null);
     
-
-
     const uploadFile = e => {
         setFile(e)
     }
@@ -50,16 +48,11 @@ function Main(props) {
         setIATA(params);
     }
 
-
     function quitRepited(arr) {
         const dataArr = new Set(arr);
         return [...dataArr];
     }
-    function getValidIATA(str) {
-        if(cities.str !== undefined){
-            return cities.str;
-        }
-    }
+
     // console.log(getKey());
     return (
 

@@ -3,9 +3,10 @@ import WeatherCard from "./WeatherCard";
 
 let counter = 0;
 export default function SearchComponent(props) {
-    
-    console.log(props.cities);
-    console.log(props.IATA);
+    const cities = props.cities;
+    const IATA = props.IATA;
+    // console.log(props.cities);
+    // console.log(props.IATA);
     const [consult, setConsult] = useState("");
     // const [infoProps, setinfoProps] = useState(info[0]);
     const info = [{
@@ -24,9 +25,11 @@ export default function SearchComponent(props) {
     const [infoProps, setinfoProps] = useState("");
     let inputRef = useRef(null);
     function handleSearch() {
-        //console.log(inputRef.current.value);
+        
         setConsult(inputRef.current.value);
+        console.log(consult);
         if(consult !== ""){
+            console.log("Validate IATA "+validIATA(consult));
             setinfoProps(info[counter]);
             counter++;
             if(counter > 3){
@@ -35,6 +38,14 @@ export default function SearchComponent(props) {
         }
         
     };
+
+    function validIATA(params) {
+        if (IATA.includes(params)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     return (
         <div className="flex-col items-center justify-center pt-12">
