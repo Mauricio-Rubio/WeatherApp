@@ -15,7 +15,7 @@ function Main(props) {
     const [file, setFile] = useState(null);
     const [cities, setCities] = useState(null);
     const [IATA, setIATA] = useState(null);
-    // const [infoConsult, setInfoConsult] = useState(null);
+    const [infoConsult, setInfoConsult] = useState(null);
     let lat;
     let lon;
     let counter = 0;
@@ -32,8 +32,6 @@ function Main(props) {
             header: true,
             skipEmptyLines: true,
             complete: function (results) {
-                // const URL = 'https://api.openweathermap.org/data/2.5/weather?lat=19.3371&lon=-99.566&appid='
-                // https://api.openweathermap.org/data/2.5/weather?lat=19.3371&lon=-99.566&appid71f51a56b641078d5f48149a5e723dfa&units=metric
                 for (let i = 0; i < results.data.length; i++) {
                     if (!AUX.includes(results.data[i].origin && !AUX.includes(results.data[i].destination))) {
                         AUX.push(results.data[i].origin);
@@ -60,12 +58,8 @@ function Main(props) {
         const URL = 'https://api.openweathermap.org/data/2.5/weather?lat='
         let ctAux2 = getCities();
         console.log(iata.length);
-        for (let i = 0; i < 2; i++) {
+        for (let i = 0; i < iata.length; i++) {
             if (citiesAux.hasOwnProperty(iata[i])) {
-                // console.log(iata[i]);
-                // console.log(citiesAux[iata[i]].lat);
-                // console.log(citiesAux[iata[i]].lon);
-
                 if (!ctAux2.hasOwnProperty(iata[i])) {
                     
                     lat = citiesAux[iata[i]].lat;
@@ -73,21 +67,22 @@ function Main(props) {
                     fetch(`${URL}${lat}&lon=${lon}&appid=${getKey()}&units=metric`)
                         .then(response => response.json())
                         .then(data => {
-                            alert('NO existe');
+                            // console.log('NO existe');
                             ctAux2[iata[i]] = {
                                 temp: data.main.temp,
                                 temp_min: data.main.temp_min,
                                 temp_max: data.main.temp_max,
                             }
+                            setInfoConsult(ctAux2);
                         })
                         .catch(err => console.log());
                 }
-
-
             }
         }
         setCities(ctAux2);
-        console.log(ctAux2);
+        // console.log(iata);
+        // console.log(ctAux2);
+        // setInfoConsult(ctAux2);
     }
 
     function saveCities(params) {
@@ -119,7 +114,7 @@ function Main(props) {
                     </div>
                 </div>
 
-                <SearchComponent cities={cities} IATA={IATA} />
+                <SearchComponent cities={cities} IATA={IATA} infoConsult={infoConsult}/>
             </div>
         </div>
     );

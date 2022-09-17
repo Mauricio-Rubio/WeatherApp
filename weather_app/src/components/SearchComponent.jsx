@@ -6,7 +6,7 @@ let counter = 0;
 export default function SearchComponent(props) {
     const cities = props.cities;
     const IATA = props.IATA;
-
+    console.log(props.infoConsult);
     // console.log(cities);
     // console.log(IATA);
 
