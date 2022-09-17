@@ -6,6 +6,8 @@ import Papa from 'papaparse';
 
 function Main(props) {
     const [file, setFile] = useState(null);
+    let cities = {};
+
 
     const uploadFile = e => {
         setFile(e)
@@ -13,34 +15,45 @@ function Main(props) {
         //console.log("--->"+Papa.parse(e[0]));
     }
     const startReading = () => {
+        const IATA = [];
         Papa.parse(file[0], {
             download: true,
             header: true,
             skipEmptyLines: true,
             complete: function (results) {
-                console.log(results.data);
-                // let arr = results.data.map(o => {Object.values(o)})
-                // console.log(arr);
+                for (let i = 0; i < results.data.length; i++) {
+                    if (!IATA.includes(results.data[i].origin)) {
+                        IATA.push(results.data[i].origin);
+                        IATA.push(results.data[i].destination);
+                        cities[results.data[i].origin] = {
+                            lat: results.data[i].origin_latitude,
+                            lon: results.data[i].origin_longitude
+                        }
+                        cities[results.data[i].destination] = {
+                            lat: results.data[i].destination_latitude,
+                            lon: results.data[i].destination_longitude
+                        }
+                    }
+                }
+                console.log(cities);
+                // console.log("-->"+cities);
+
+                // console.log(results.data[i].origin_latitude);
+                // cities[results.data[i].origin] = {
+                //     lat: results.data[i].origin_latitude,
+                //     lon: results.data[i].origin_longitude
+                // }
+                // console.log(results.data[i].origin);
+                // if(!cities.includes(results.data[i].origin)){
+                //     // IATA.push(results.data[i].origin);
+                //     cities[results.data[i].origin] = {
+                //         lat: results.data[i].origin_latitude,
+                //         lon: results.data[i].origin_longitude
+                //     }
+                // }
+                // console.log(cities);
             }
         });
-        // let reader = new FileReader();
-        // let fileToRead = file;
-        // reader.addEventListener("loadend", function() {
-        //     // reader.result contains the contents of blob as a typed array
-        //     // we insert content of file in DOM here
-        //     // document.getElementById('file').innerText = reader.result;
-        //     console.log(reader.result);
-        //  });
-        //  reader.readAsText(fileToRead);
-
-
-        // console.log("file -->" + file[0].name);
-        // console.log("file -->" + file[0].type);
-        // // Papa.parse(file, {
-        //     header: true,
-        //     download: true,
-        //     skipEmptyLines: true,
-        // });
     }
     console.log(getKey());
     return (
