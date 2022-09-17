@@ -5,8 +5,11 @@ import { useState } from "react";
 import Swal from 'sweetalert2'
 import validarAPI from "../backend/request.test"
 import { setKey } from "../backend/key";
+import Papa from 'papaparse/papaparse.min';
+
 // import withReactContent from 'sweetalert2-react-content'
 function Login() {
+    readDB();
     const URL = 'https://api.openweathermap.org/data/2.5/weather?lat=44.34&lon=10.99&appid='
     const [api, setApi] = useState(false);
     let history = useNavigate();
@@ -65,3 +68,15 @@ function Login() {
     );
 }
 export default Login;
+
+function readDB() {
+    // const csv = "../data/dataset1.csv";
+    // console.log(Papa.parse(csv));
+    function readFile (evt) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            const text = e.target.result;
+            console.log(text);
+        }
+     }
+}

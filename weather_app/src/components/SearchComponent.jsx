@@ -1,38 +1,48 @@
+import { info } from "autoprefixer";
 import React, { useRef, useState } from "react";
+import { useEffect } from "react";
 import WeatherCard from "./WeatherCard";
 
 let counter = 0;
-export default function SearchComponent() {
-    
+
+export default function SearchComponent(props) {
+    const cities = props.cities;
+    const IATA = props.IATA;
+    const infoConsult = props.infoConsult;
+    console.log(infoConsult);
+    // console.log(cities);
+    // console.log(IATA);
+
     const [consult, setConsult] = useState("");
-    // const [infoProps, setinfoProps] = useState(info[0]);
-    const info = [{
-        name: "London",
-        country: "UK",
-    }, {
-        name: "Munich",
-        country: "GER",
-    }, {
-        name: "MTY",
-        country: "MTY",
-    }, {
-        name: "CDMX",
-        country: "MEX",
-    }]
     const [infoProps, setinfoProps] = useState("");
     let inputRef = useRef(null);
+    
     function handleSearch() {
-        //console.log(inputRef.current.value);
+        console.log(inputRef.current.value);
         setConsult(inputRef.current.value);
-        if(consult !== ""){
-            setinfoProps(info[counter]);
-            counter++;
-            if(counter > 3){
-                counter = 0;
-            }
-        }
-        
     };
+    useEffect(() => {
+        console.log("---->"+consult);
+        if(consult !== "" && validIATA(consult)){
+            console.log("Validate IATA "+validIATA(consult));
+            setinfoProps(infoConsult[consult]);
+            console.log('sended data -> '+infoProps[consult]);
+        }
+    }, [consult]);
+
+
+
+    function saveConsult(params) {
+        setConsult(params);
+    }
+
+    function validIATA(params) {
+        if (IATA.includes(params)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     return (
         <div className="flex-col items-center justify-center pt-12">
@@ -61,7 +71,7 @@ export default function SearchComponent() {
                 </button>
             </div>
             <div className="flex space-x-1 justify-center mt-16 p-2	 flex-wrap -m-3">
-                {consult !== "" ? <WeatherCard text={infoProps} /> : null}
+                {consult !== "" ? <WeatherCard text={infoProps} city={consult}/> : null}
             </div>
         </div>
     );
