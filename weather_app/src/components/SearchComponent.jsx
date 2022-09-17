@@ -1,3 +1,4 @@
+import { info } from "autoprefixer";
 import React, { useRef, useState } from "react";
 import WeatherCard from "./WeatherCard";
 
@@ -6,7 +7,8 @@ let counter = 0;
 export default function SearchComponent(props) {
     const cities = props.cities;
     const IATA = props.IATA;
-    console.log(props.infoConsult);
+    const infoConsult = props.infoConsult;
+    console.log(infoConsult);
     // console.log(cities);
     // console.log(IATA);
 
@@ -20,7 +22,8 @@ export default function SearchComponent(props) {
         console.log(consult);
         if(consult !== "" && validIATA(consult)){
             console.log("Validate IATA "+validIATA(consult));
-            setinfoProps(consult);
+            setinfoProps(infoConsult[consult]);
+            console.log('sended data -> '+infoProps[consult]);
         }
         
     };
@@ -64,7 +67,7 @@ export default function SearchComponent(props) {
                 </button>
             </div>
             <div className="flex space-x-1 justify-center mt-16 p-2	 flex-wrap -m-3">
-                {consult !== "" ? <WeatherCard text={infoProps} /> : null}
+                {consult !== "" ? <WeatherCard text={infoProps} city={consult}/> : null}
             </div>
         </div>
     );

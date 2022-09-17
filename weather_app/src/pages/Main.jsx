@@ -4,6 +4,7 @@ import SearchComponent from "../components/SearchComponent";
 import Papa from 'papaparse';
 import setCities from '../backend/cities';
 import getCities from '../backend/cities';
+import Swal from 'sweetalert2'
 // import { data } from "autoprefixer";
 // import validarAPI from "../backend/request.test";
 
@@ -72,6 +73,8 @@ function Main(props) {
                                 temp: data.main.temp,
                                 temp_min: data.main.temp_min,
                                 temp_max: data.main.temp_max,
+                                main: data.weather[0].main,
+                                description: data.weather[0].description,
                             }
                             setInfoConsult(ctAux2);
                         })
@@ -81,6 +84,13 @@ function Main(props) {
         }
         setCities(ctAux2);
         setInfoConsult(ctAux2);
+        Swal.fire({
+            position: 'top-end',
+            icon: 'success',
+            title: 'The Data Base has been updated',
+            showConfirmButton: false,
+            timer: 1200
+          })
     }
 
     function saveCities(params) {
