@@ -1,5 +1,6 @@
 import { info } from "autoprefixer";
 import React, { useRef, useState } from "react";
+import { useEffect } from "react";
 import WeatherCard from "./WeatherCard";
 
 let counter = 0;
@@ -18,15 +19,18 @@ export default function SearchComponent(props) {
     
     function handleSearch() {
         console.log(inputRef.current.value);
-        saveConsult(inputRef.current.value);
-        console.log(consult);
+        setConsult(inputRef.current.value);
+    };
+    useEffect(() => {
+        console.log("---->"+consult);
         if(consult !== "" && validIATA(consult)){
             console.log("Validate IATA "+validIATA(consult));
             setinfoProps(infoConsult[consult]);
             console.log('sended data -> '+infoProps[consult]);
         }
-        
-    };
+    }, [consult]);
+
+
 
     function saveConsult(params) {
         setConsult(params);
