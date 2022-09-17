@@ -2,26 +2,39 @@ import React, { useState } from "react";
 import getKey from "../backend/key";
 import SearchComponent from "../components/SearchComponent";
 import Papa from 'papaparse';
+// import { data } from "autoprefixer";
+// import validarAPI from "../backend/request.test";
 
+
+// const URL = `https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lon}&appid=${API}`
 
 function Main(props) {
+    // console.log('API KEY -> ' + getKey());
     const [file, setFile] = useState(null);
     const [cities, setCities] = useState(null);
     const [IATA, setIATA] = useState(null);
-    
+    // const [infoConsult, setInfoConsult] = useState(null);
+    let lat;
+    let lon;
+    let counter = 0;
+
     const uploadFile = e => {
         setFile(e)
     }
     const startReading = () => {
         const AUX = [];
         let ctAux = {};
+        let ctAux2 = {};
         Papa.parse(file[0], {
             download: true,
             header: true,
             skipEmptyLines: true,
             complete: function (results) {
-                for (let i = 0; i < results.data.length; i++) {
-                    if (!AUX.includes(results.data[i].origin)) {
+                // const URL = 'https://api.openweathermap.org/data/2.5/weather?lat=19.3371&lon=-99.566&appid='
+                const URL = 'https://api.openweathermap.org/data/2.5/weather?lat='
+                // https://api.openweathermap.org/data/2.5/weather?lat=19.3371&lon=-99.566&appid71f51a56b641078d5f48149a5e723dfa&units=metric
+                for (let i = 0; i < 5; i++) {
+                    if (!AUX.includes(results.data[i].origin && !AUX.includes(results.data[i].destination))) {
                         AUX.push(results.data[i].origin);
                         AUX.push(results.data[i].destination);
                         ctAux[results.data[i].origin] = {
@@ -32,8 +45,42 @@ function Main(props) {
                             lat: results.data[i].destination_latitude,
                             lon: results.data[i].destination_longitude
                         }
+
+                        if (!(ctAux2.hasOwnProperty(results.data[i].origin))) {
+                            counter++;
+                            lat = results.data[i].origin_latitude;
+                            lon = results.data[i].origin_longitude;
+                            fetch(`${URL}${lat}&lon=${lon}&appid=${getKey()}&units=metric`)
+                                .then(response => response.json())
+                                .then(data => {
+                                    ctAux2[results.data[i].origin] = {
+                                        temp: data.main.temp,
+                                        temp_min: data.main.temp_min,
+                                        temp_max: data.main.temp_max,
+                                    }
+                                })
+                                .catch(err => console.log());
+                        }
+                        if (!ctAux2.hasOwnProperty(results.data[i].destination)) {
+                            counter++;
+                            lat = results.data[i].destination_latitude;
+                            lon = results.data[i].destination_latitude;
+                            fetch(`${URL}${lat}&lon=${lon}&appid=${getKey()}&units=metric`)
+                                .then(response => response.json())
+                                .then(data => {
+                                    ctAux2[results.data[i].destination] = {
+                                        temp: data.main.temp,
+                                        temp_min: data.main.temp_min,
+                                        temp_max: data.main.temp_max,
+                                    }
+                                })
+                                .catch(err => console.log());
+                        }
                     }
+                    
                 }
+                console.log(ctAux2);
+                console.log('Times---> ' + counter);
                 saveCities(ctAux);
                 saveIATA(quitRepited(AUX));
             }
@@ -69,7 +116,7 @@ function Main(props) {
                     </div>
                 </div>
 
-                <SearchComponent cities={cities} IATA = {IATA}/>
+                <SearchComponent cities={cities} IATA={IATA} />
             </div>
         </div>
     );

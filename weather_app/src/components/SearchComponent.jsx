@@ -2,42 +2,32 @@ import React, { useRef, useState } from "react";
 import WeatherCard from "./WeatherCard";
 
 let counter = 0;
+
 export default function SearchComponent(props) {
     const cities = props.cities;
     const IATA = props.IATA;
-    // console.log(props.cities);
-    // console.log(props.IATA);
+
+    // console.log(cities);
+    // console.log(IATA);
+
     const [consult, setConsult] = useState("");
-    // const [infoProps, setinfoProps] = useState(info[0]);
-    const info = [{
-        name: "London",
-        country: "UK",
-    }, {
-        name: "Munich",
-        country: "GER",
-    }, {
-        name: "MTY",
-        country: "MTY",
-    }, {
-        name: "CDMX",
-        country: "MEX",
-    }]
     const [infoProps, setinfoProps] = useState("");
     let inputRef = useRef(null);
+    
     function handleSearch() {
-        
-        setConsult(inputRef.current.value);
+        console.log(inputRef.current.value);
+        saveConsult(inputRef.current.value);
         console.log(consult);
-        if(consult !== ""){
+        if(consult !== "" && validIATA(consult)){
             console.log("Validate IATA "+validIATA(consult));
-            setinfoProps(info[counter]);
-            counter++;
-            if(counter > 3){
-                counter = 0;
-            }
+            setinfoProps(consult);
         }
         
     };
+
+    function saveConsult(params) {
+        setConsult(params);
+    }
 
     function validIATA(params) {
         if (IATA.includes(params)) {
