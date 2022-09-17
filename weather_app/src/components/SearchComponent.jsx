@@ -2,8 +2,10 @@ import React, { useRef, useState } from "react";
 import WeatherCard from "./WeatherCard";
 
 let counter = 0;
-export default function SearchComponent() {
+export default function SearchComponent(props) {
     
+    console.log(props.cities);
+    console.log(props.IATA);
     const [consult, setConsult] = useState("");
     // const [infoProps, setinfoProps] = useState(info[0]);
     const info = [{

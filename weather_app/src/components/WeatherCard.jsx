@@ -1,7 +1,7 @@
 import React from "react";
 export default function WeatherCard(props) {
     // this.forceUpdate();
-    console.log(props);
+    // console.log(props);
     return (
         <div className="max-w-sm rounded overflow-hidden shadow-lg p-2">
             {/* <img class="w-full" src="/img/card-top.jpg" alt="Sunset in the mountains" /> */}

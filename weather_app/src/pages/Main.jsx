@@ -6,56 +6,61 @@ import Papa from 'papaparse';
 
 function Main(props) {
     const [file, setFile] = useState(null);
-    let cities = {};
+    const [cities, setCities] = useState(null);
+    const [IATA, setIATA] = useState(null);
+    
 
 
     const uploadFile = e => {
         setFile(e)
-        // console.log("-->" + file[0].name);
-        //console.log("--->"+Papa.parse(e[0]));
     }
     const startReading = () => {
-        const IATA = [];
+        const AUX = [];
+        let ctAux = {};
         Papa.parse(file[0], {
             download: true,
             header: true,
             skipEmptyLines: true,
             complete: function (results) {
                 for (let i = 0; i < results.data.length; i++) {
-                    if (!IATA.includes(results.data[i].origin)) {
-                        IATA.push(results.data[i].origin);
-                        IATA.push(results.data[i].destination);
-                        cities[results.data[i].origin] = {
+                    if (!AUX.includes(results.data[i].origin)) {
+                        AUX.push(results.data[i].origin);
+                        AUX.push(results.data[i].destination);
+                        ctAux[results.data[i].origin] = {
                             lat: results.data[i].origin_latitude,
                             lon: results.data[i].origin_longitude
                         }
-                        cities[results.data[i].destination] = {
+                        ctAux[results.data[i].destination] = {
                             lat: results.data[i].destination_latitude,
                             lon: results.data[i].destination_longitude
                         }
                     }
                 }
-                console.log(cities);
-                // console.log("-->"+cities);
-
-                // console.log(results.data[i].origin_latitude);
-                // cities[results.data[i].origin] = {
-                //     lat: results.data[i].origin_latitude,
-                //     lon: results.data[i].origin_longitude
-                // }
-                // console.log(results.data[i].origin);
-                // if(!cities.includes(results.data[i].origin)){
-                //     // IATA.push(results.data[i].origin);
-                //     cities[results.data[i].origin] = {
-                //         lat: results.data[i].origin_latitude,
-                //         lon: results.data[i].origin_longitude
-                //     }
-                // }
-                // console.log(cities);
+                saveCities(ctAux);
+                saveIATA(quitRepited(AUX));
             }
         });
     }
-    console.log(getKey());
+
+    function saveCities(params) {
+        setCities(params);
+    }
+
+    function saveIATA(params) {
+        setIATA(params);
+    }
+
+
+    function quitRepited(arr) {
+        const dataArr = new Set(arr);
+        return [...dataArr];
+    }
+    function getValidIATA(str) {
+        if(cities.str !== undefined){
+            return cities.str;
+        }
+    }
+    // console.log(getKey());
     return (
 
         <div className="grid grid-cols-1 h-screen w-full">
@@ -71,7 +76,7 @@ function Main(props) {
                     </div>
                 </div>
 
-                <SearchComponent />
+                <SearchComponent cities={cities} IATA = {IATA}/>
             </div>
         </div>
     );
