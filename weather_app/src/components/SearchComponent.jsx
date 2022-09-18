@@ -23,9 +23,9 @@ export default function SearchComponent(props) {
     };
     useEffect(() => {
         console.log("---->"+consult);
-        if(consult !== "" && validIATA(consult)){
+        if(consult !== "" && validIATA(consult.toUpperCase())){
             console.log("Validate IATA "+validIATA(consult));
-            setinfoProps(infoConsult[consult]);
+            setinfoProps(infoConsult[consult.toUpperCase()]);
             console.log('sended data -> '+infoProps[consult]);
         }
     }, [consult]);

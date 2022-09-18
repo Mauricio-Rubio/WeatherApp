@@ -4,22 +4,16 @@ import SearchComponent from "../components/SearchComponent";
 import Papa from 'papaparse';
 import setCities from '../backend/cities';
 import getCities from '../backend/cities';
-import Swal from 'sweetalert2'
-// import { data } from "autoprefixer";
-// import validarAPI from "../backend/request.test";
-
-
-// const URL = `https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lon}&appid=${API}`
+import Swal from 'sweetalert2';
 
 function Main(props) {
-    // console.log('API KEY -> ' + getKey());
     const [file, setFile] = useState(null);
     const [cities, setCities] = useState(null);
     const [IATA, setIATA] = useState(null);
     const [infoConsult, setInfoConsult] = useState(null);
     let lat;
     let lon;
-    let counter = 0;
+    // let counter = 0;
 
     const uploadFile = e => {
         setFile(e)
@@ -28,31 +22,40 @@ function Main(props) {
         let AUX = [];
         let ctAux = {};
 
-        Papa.parse(file[0], {
-            download: true,
-            header: true,
-            skipEmptyLines: true,
-            complete: function (results) {
-                for (let i = 0; i < results.data.length; i++) {
-                    if (!AUX.includes(results.data[i].origin && !AUX.includes(results.data[i].destination))) {
-                        AUX.push(results.data[i].origin);
-                        AUX.push(results.data[i].destination);
-                        ctAux[results.data[i].origin] = {
-                            lat: results.data[i].origin_latitude,
-                            lon: results.data[i].origin_longitude
-                        }
-                        ctAux[results.data[i].destination] = {
-                            lat: results.data[i].destination_latitude,
-                            lon: results.data[i].destination_longitude
+        if (validateCSV(file[0].name)) {
+            Papa.parse(file[0], {
+                download: true,
+                header: true,
+                skipEmptyLines: true,
+                complete: function (results) {
+                    for (let i = 0; i < results.data.length; i++) {
+                        if (!AUX.includes(results.data[i].origin && !AUX.includes(results.data[i].destination))) {
+                            AUX.push(results.data[i].origin);
+                            AUX.push(results.data[i].destination);
+                            ctAux[results.data[i].origin] = {
+                                lat: results.data[i].origin_latitude,
+                                lon: results.data[i].origin_longitude
+                            }
+                            ctAux[results.data[i].destination] = {
+                                lat: results.data[i].destination_latitude,
+                                lon: results.data[i].destination_longitude
+                            }
                         }
                     }
+                    saveCities(ctAux);
+                    AUX = quitRepited(AUX)
+                    saveIATA(AUX);
+                    makeRequest(results.datam, AUX, ctAux);
                 }
-                saveCities(ctAux);
-                AUX = quitRepited(AUX)
-                saveIATA(AUX);
-                makeRequest(results.datam, AUX, ctAux);
-            }
-        });
+            });
+        }else{
+            Swal.fire({
+                title: 'Error!',
+                text: 'Not a valid file',
+                icon: 'error',
+                confirmButtonText: 'Cool'
+              }) 
+        }
     }
 
     function makeRequest(data, iata, citiesAux) {
@@ -62,7 +65,7 @@ function Main(props) {
         for (let i = 0; i < iata.length; i++) {
             if (citiesAux.hasOwnProperty(iata[i])) {
                 if (!ctAux2.hasOwnProperty(iata[i])) {
-                    
+
                     lat = citiesAux[iata[i]].lat;
                     lon = citiesAux[iata[i]].lon;
                     fetch(`${URL}${lat}&lon=${lon}&appid=${getKey()}&units=metric`)
@@ -71,10 +74,11 @@ function Main(props) {
                             // console.log('NO existe');
                             ctAux2[iata[i]] = {
                                 temp: data.main.temp,
-                                temp_min: data.main.temp_min,
-                                temp_max: data.main.temp_max,
+                                feelsLike: data.main.feels_like,
                                 main: data.weather[0].main,
                                 description: data.weather[0].description,
+                                presure: data.main.pressure,
+                                visibility: data.visibility,
                             }
                             setInfoConsult(ctAux2);
                         })
@@ -90,8 +94,17 @@ function Main(props) {
             title: 'The Data Base has been updated',
             showConfirmButton: false,
             timer: 1200
-          })
+        })
     }
+
+    function validateCSV(strFile) {
+        let fileName = strFile.split(".")
+        if (fileName[1] === "csv") {
+            return true;
+        }
+        return false;
+    }
+
 
     function saveCities(params) {
         setCities(params);
@@ -121,7 +134,7 @@ function Main(props) {
                     </div>
                 </div>
 
-                <SearchComponent cities={cities} IATA={IATA} infoConsult={infoConsult}/>
+                <SearchComponent cities={cities} IATA={IATA} infoConsult={infoConsult} />
             </div>
         </div>
     );
