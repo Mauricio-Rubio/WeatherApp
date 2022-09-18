@@ -2,24 +2,22 @@ import { info } from "autoprefixer";
 import React, { useRef, useState } from "react";
 import { useEffect } from "react";
 import WeatherCard from "./WeatherCard";
+import Swal from 'sweetalert2'
 
 let counter = 0;
 
 export default function SearchComponent(props) {
-    const cities = props.cities;
+    // const cities = props.cities;
     const IATA = props.IATA;
     const infoConsult = props.infoConsult;
     console.log(infoConsult);
-    // console.log(cities);
-    // console.log(IATA);
-
     const [consult, setConsult] = useState("");
     const [infoProps, setinfoProps] = useState("");
     let inputRef = useRef(null);
     
     function handleSearch() {
         console.log(inputRef.current.value);
-        setConsult(inputRef.current.value);
+        setConsult(inputRef.current.value.toUpperCase());
     };
     useEffect(() => {
         console.log("---->"+consult);
@@ -39,6 +37,15 @@ export default function SearchComponent(props) {
     }
 
     function validIATA(params) {
+        if(IATA === null || infoConsult === null){
+            Swal.fire({
+                title: 'Error!',
+                text: 'The data base is not ready',
+                icon: 'error',
+                confirmButtonText: 'Cool'
+              }) 
+            return false;
+        }
         if (IATA.includes(params)) {
             return true;
         } else {
