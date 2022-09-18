@@ -27,6 +27,8 @@ export default function SearchComponent(props) {
             console.log("Validate IATA "+validIATA(consult));
             setinfoProps(infoConsult[consult.toUpperCase()]);
             console.log('sended data -> '+infoProps[consult]);
+        }else{
+            setConsult("");
         }
     }, [consult]);
 
