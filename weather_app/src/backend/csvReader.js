@@ -34,8 +34,5 @@ fs.createReadStream("./data/dataset1.csv")
   }
 
   //request is the petition with lon and lat
-
   console.log(request)
-  
-
 });

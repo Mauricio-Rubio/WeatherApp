@@ -1,4 +1,4 @@
-let KEY;
+let KEY = '';
 export default function getKey(){
    return KEY; 
 }
