@@ -1,20 +1,17 @@
 import React from "react";
 import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
 import Swal from 'sweetalert2'
 import validarAPI from "../backend/request.test"
 import { setKey } from "../backend/key";
-// import withReactContent from 'sweetalert2-react-content'
+
 function Login() {
     const URL = 'https://api.openweathermap.org/data/2.5/weather?lat=44.34&lon=10.99&appid='
-    const [api, setApi] = useState(false);
     let history = useNavigate();
     let inputRef = useRef(null);
     const handleSubmit = (event) => {
-        //alert(inputRef.current.value)
         event.preventDefault();
-        console.log("--->"+validarAPI(inputRef.current.value));
+        // console.log("--->"+validarAPI(inputRef.current.value));
         
         fetch(`${URL}${inputRef.current.value}`)
         .then(function (response) {
@@ -47,7 +44,6 @@ function Login() {
             }
         })
         .catch(err => console.log());
-
     }
     return (
         <div className="grid grid-cols-1 h-screen w-full">
