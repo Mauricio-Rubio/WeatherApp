@@ -2,7 +2,6 @@ import React from "react";
 import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import Swal from 'sweetalert2'
-import validarAPI from "../backend/request.test"
 import { setKey } from "../backend/key";
 
 function Login() {
@@ -11,8 +10,6 @@ function Login() {
     let inputRef = useRef(null);
     const handleSubmit = (event) => {
         event.preventDefault();
-        // console.log("--->"+validarAPI(inputRef.current.value));
-        
         fetch(`${URL}${inputRef.current.value}`)
         .then(function (response) {
             if (response.status === 200) {
