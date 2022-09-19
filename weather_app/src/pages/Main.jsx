@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import getKey from "../backend/key";
 import SearchComponent from "../components/SearchComponent";
 import Papa from 'papaparse';
-import setCities from '../backend/cities';
 import getCities from '../backend/cities';
 import Swal from 'sweetalert2';
 
@@ -13,7 +12,6 @@ function Main(props) {
     const [infoConsult, setInfoConsult] = useState(null);
     let lat;
     let lon;
-    // let counter = 0;
 
     const uploadFile = e => {
         setFile(e)
@@ -64,8 +62,7 @@ function Main(props) {
         console.log(iata.length);
         for (let i = 0; i < iata.length; i++) {
             if (citiesAux.hasOwnProperty(iata[i])) {
-                if (!ctAux2.hasOwnProperty(iata[i])) {
-
+                if (!ctAux2.hasOwnProperty(iata[i]) && iata.length < 58) {
                     lat = citiesAux[iata[i]].lat;
                     lon = citiesAux[iata[i]].lon;
                     fetch(`${URL}${lat}&lon=${lon}&appid=${getKey()}&units=metric`)

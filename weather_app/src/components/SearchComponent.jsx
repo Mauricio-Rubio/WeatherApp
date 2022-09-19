@@ -1,13 +1,10 @@
-import { info } from "autoprefixer";
 import React, { useRef, useState } from "react";
 import { useEffect } from "react";
 import WeatherCard from "./WeatherCard";
 import Swal from 'sweetalert2'
 
-let counter = 0;
 
 export default function SearchComponent(props) {
-    // const cities = props.cities;
     const IATA = props.IATA;
     const infoConsult = props.infoConsult;
     console.log(infoConsult);
@@ -16,11 +13,9 @@ export default function SearchComponent(props) {
     let inputRef = useRef(null);
     
     function handleSearch() {
-        console.log(inputRef.current.value);
         setConsult(inputRef.current.value.toUpperCase());
     };
     useEffect(() => {
-        console.log("---->"+consult);
         if(consult !== "" && validIATA(consult.toUpperCase())){
             console.log("Validate IATA "+validIATA(consult));
             setinfoProps(infoConsult[consult.toUpperCase()]);
@@ -29,12 +24,6 @@ export default function SearchComponent(props) {
             setConsult("");
         }
     }, [consult]);
-
-
-
-    function saveConsult(params) {
-        setConsult(params);
-    }
 
     function validIATA(params) {
         if(IATA === null || infoConsult === null){
