@@ -17,5 +17,7 @@ https://dazzling-toffee-b8b3f1.netlify.app/
 Then to make git clone: 
 
 > cd WeatherApp/weather_app
+> 
 > npm i
+> 
 > npm start
